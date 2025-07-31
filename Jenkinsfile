@@ -2,33 +2,34 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Cloner le dépôt') {
             steps {
-                checkout scm
+                git url: 'https://github.com/FallouTG20/postman-test.git', branch: 'main'
             }
         }
 
-        stage('Run Postman Tests with Newman') {
+        stage('Installer Newman') {
             steps {
-                bat """
-                "C:\\Program Files\\nodejs\\node.exe" "C:\\Users\\fallo\\AppData\\Roaming\\npm\\node_modules\\newman\\bin\\newman.js" run "test API JSONplace_holder.postman_collection.json" -e "Fake_API_Racc.postman_environment.json" -r html --reporter-html-export newman-report.html
-                """
+                bat 'npm install -g newman'
             }
         }
-    }
 
-    post {
-        always {
-            archiveArtifacts artifacts: 'newman-report.html', fingerprint: true
+        stage('Exécuter les tests Fake API') {
+            steps {
+                bat '''
+                SET PATH=%APPDATA%\\npm;%PATH%
+                newman run "fake_api testing.postman_collection.json" -e "Fake_API_Racc.postman_environment.json"
+                '''
+            }
+        }
 
-            publishHTML (target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: '.',
-                reportFiles: 'newman-report.html',
-                reportName: 'Rapport Newman Postman'
-            ])
+        stage('Exécuter les tests JSON Placeholder') {
+            steps {
+                bat '''
+                SET PATH=%APPDATA%\\npm;%PATH%
+                newman run "test API JSONplace_holder.postman_collection.json" -e "JsonPlaceholder.postman_environment.json"
+                '''
+            }
         }
     }
 }
