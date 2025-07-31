@@ -42,13 +42,19 @@ pipeline {
             publishHTML([
                 reportDir: 'newman',
                 reportFiles: 'fake_api_report.html',
-                reportName: 'Rapport Fake API'
+                reportName: 'Rapport Fake API',
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true
             ])
 
             publishHTML([
                 reportDir: 'newman',
                 reportFiles: 'json_placeholder_report.html',
-                reportName: 'Rapport JSON Placeholder'
+                reportName: 'Rapport JSON Placeholder',
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true
             ])
         }
     }
