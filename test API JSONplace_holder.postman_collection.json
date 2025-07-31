@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "72b9da7f-5cfe-48d8-8902-139f6b997bf5",
+		"name": "test API JSONplace_holder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47119804",
+		"_collection_link": "https://material-candidate-31109580-2078901.postman.co/workspace/Test-API-avec-Jsonplaceholder~6bd5fa54-0461-4631-a853-601346bd4566/collection/47119804-72b9da7f-5cfe-48d8-8902-139f6b997bf5?action=share&source=collection_link&creator=47119804"
+	},
+	"item": [
+		{
+			"name": "recuperer tt les posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url\n}}/posts",
+					"host": [
+						"{{base_url\n}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recuperer posts 5",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url\n}}/posts/5",
+					"host": [
+						"{{base_url\n}}"
+					],
+					"path": [
+						"posts",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "supp posts 5",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url\n}}/posts/5",
+					"host": [
+						"{{base_url\n}}"
+					],
+					"path": [
+						"posts",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recup tt les com de postId=5",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url\n}}/comments?postId=5",
+					"host": [
+						"{{base_url\n}}"
+					],
+					"path": [
+						"comments"
+					],
+					"query": [
+						{
+							"key": "postId",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "creer un post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"mon premier titre\",\r\n    \"body\":\"ceci est mon premier posts, juste pour tester\",\r\n    \"userId\":\"101\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url\n}}/posts",
+					"host": [
+						"{{base_url\n}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modif posts 5",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"je t'ai bien modif\",\r\n    \"body\":\"je change le body du posts a Id 5\",\r\n    \"userId\":\"1\",\r\n    \"id\":\"5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url\n}}/posts/5",
+					"host": [
+						"{{base_url\n}}"
+					],
+					"path": [
+						"posts",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MAJ posts 99",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"...\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url\n}}/posts/99",
+					"host": [
+						"{{base_url\n}}"
+					],
+					"path": [
+						"posts",
+						"99"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
