@@ -14,11 +14,17 @@ pipeline {
             }
         }
 
+        stage('Installer newman-reporter-html') {
+            steps {
+                bat 'npm install -g newman-reporter-html'
+            }
+        }
+
         stage('Exécuter les tests Fake API') {
             steps {
                 bat '''
                 SET PATH=%APPDATA%\\npm;%PATH%
-                newman run "fake_api testing.postman_collection.json" -e "Fake_API_Racc.postman_environment.json"
+                newman run "fake_api testing.postman_collection.json" -e "Fake_API_Racc.postman_environment.json" -r html --reporter-html-export fake_api_report.html
                 '''
             }
         }
@@ -27,9 +33,15 @@ pipeline {
             steps {
                 bat '''
                 SET PATH=%APPDATA%\\npm;%PATH%
-                newman run "test API JSONplace_holder.postman_collection.json" -e "JsonPlaceholder.postman_environment.json"
+                newman run "test API JSONplace_holder.postman_collection.json" -e "JsonPlaceholder.postman_environment.json" -r html --reporter-html-export json_placeholder_report.html
                 '''
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '*.html', fingerprint: true
         }
     }
 }
