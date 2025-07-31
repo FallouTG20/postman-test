@@ -4,40 +4,37 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Cloner ton dépôt GitHub (remplace par ton URL)
-                git 'https://github.com/ton-utilisateur/ton-depot.git'
+                checkout scm
             }
         }
 
-        stage('Install Newman') {
+        stage('Run Postman Tests with Newman') {
             steps {
-                // Installer Newman globalement (via npm) si besoin
-                bat 'npm install -g newman'
+                // Exécution de Newman avec rapport HTML
+                bat """
+                newman run "test API JSONplace_holder.postman_collection.json" \
+                -e "Fake_API_Racc.postman_environment.json" \
+                -r html \
+                --reporter-html-export newman-report.html
+                """
             }
         }
+    }
 
-        stage('Run Postman Tests') {
-            steps {
-                // Lancer la collection avec l'environnement et générer un rapport HTML
-                bat '''
-                newman run "test API JSONplace_holder.postman_collection.json" ^
-                    -e "JsonPlaceholder.postman_environment.json" ^
-                    -r cli,html ^
-                    --reporter-html-export newman-report.html
-                '''
-            }
-        }
+    post {
+        always {
+            // Archive le rapport HTML généré pour consultation depuis Jenkins
+            archiveArtifacts artifacts: 'newman-report.html', fingerprint: true
 
-        stage('Archive Reports') {
-            steps {
-                // Archiver et publier le rapport HTML dans Jenkins
-                archiveArtifacts artifacts: 'newman-report.html'
-                publishHTML (target: [
-                    reportDir: '.',
-                    reportFiles: 'newman-report.html',
-                    reportName: 'Rapport Newman'
-                ])
-            }
+            // Affiche le rapport HTML dans l'interface Jenkins (plugin HTML Publisher requis)
+            publishHTML (target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'newman-report.html',
+                reportName: 'Rapport Newman Postman'
+            ])
         }
     }
 }
