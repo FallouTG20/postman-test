@@ -14,15 +14,19 @@ pipeline {
             }
         }
 
-        stage('Exécuter tous les tests Postman') {
+        stage('Exécuter les tests Fake API') {
             steps {
                 bat '''
                 SET PATH=%APPDATA%\\npm;%PATH%
-
-                REM Test 1 : Fake API
                 newman run "fake_api testing.postman_collection.json" -e "Fake_API_Racc.postman_environment.json"
+                '''
+            }
+        }
 
-                REM Test 2 : JSON Placeholder
+        stage('Exécuter les tests JSON Placeholder') {
+            steps {
+                bat '''
+                SET PATH=%APPDATA%\\npm;%PATH%
                 newman run "test API JSONplace_holder.postman_collection.json" -e "JsonPlaceholder.postman_environment.json"
                 '''
             }
