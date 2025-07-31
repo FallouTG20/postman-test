@@ -16,7 +16,10 @@ pipeline {
 
         stage('Exécuter les tests Postman') {
             steps {
-                bat 'newman run "fake_api testing.postman_collection.json" -e "Fake_API_Racc.postman_environment.json"'
+                bat '''
+                SET PATH=%APPDATA%\\npm;%PATH%
+                newman run "fake_api testing.postman_collection.json" -e "Fake_API_Racc.postman_environment.json"
+                '''
             }
         }
     }
